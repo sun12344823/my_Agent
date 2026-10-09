@@ -1,0 +1,14 @@
+# 密钥与本地配置 —— 绝不提交到 GitHub
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# 工具
+.uvcache/
+.DS_Store
