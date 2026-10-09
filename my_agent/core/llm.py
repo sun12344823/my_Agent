@@ -25,7 +25,7 @@ PROVIDER_PRESETS: dict = {
     "modelscope": {
         "api_key_env": "MODELSCOPE_API_KEY",
         "base_url": "https://api-inference.modelscope.cn/v1/",
-        "model": "Qwen/Qwen2.5-72B-Instruct",
+        "model": "Qwen/Qwen3.5-27B",
     },
     "zhipu": {
         "api_key_env": "ZHIPU_API_KEY",
@@ -162,8 +162,16 @@ class MyLLM:
 
         提示: content 可能为 None（极端情况），此时返回空字符串。
         """
-        raise NotImplementedError("第1课 TODO 2: 请实现 invoke")
+        params = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": self.temperature,
+        }
+        if self.max_tokens is not None:
+            params["max_tokens"] = self.max_tokens
 
+        response = self._client.chat.completions.create(**params, **kwargs)
+        return response.choices[0].message.content or ""
     # --------------------------------------------------
     # 流式调用：我直接给你（观察 yield 用法，第 4 课 SimpleAgent 会用到）
     # --------------------------------------------------
